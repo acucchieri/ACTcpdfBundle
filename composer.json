@@ -1,0 +1,16 @@
+{
+    "name": "acucchieri/tcpdf-bundle",
+    "type": "symfony-bundle",
+    "description": "Integration of the tcpdf library with Symfony2",
+    "keywords": ["pdf", "tcpdf", "symfony2"],
+    "homepage": "https://github.com/acucchieri/PdfBundle",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "~2.8|~3.0",
+        "tecnickcom/tcpdf": "^6.2"
+    },
+    "autoload": {
+        "psr-4": { "AC\\TcpdfBundle\\": "" }
+    }
+}
