@@ -93,6 +93,6 @@ class PdfBuider extends TCPDF
      */
     public function toString()
     {
-        return $binary = $this->Output('', 'S');
+        return $this->Output('', 'S');
     }
 }
