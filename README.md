@@ -1,7 +1,7 @@
 ACTcpdfBundle
 =============
 
-The `ACTcpdfBundle` integrates the [TCPDF](https://github.com/tecnickcom/TCPDF) PHP library with Symfony. This means easy-to-implement and easy-to-ouptput you PFD documents in your Symfony application!
+The `ACTcpdfBundle` integrates the [TCPDF](https://github.com/tecnickcom/TCPDF) PHP library with Symfony. This means easy-to-implement and easy-to-ouptput PDF documents in your Symfony application.
 
 Installation
 ------------
@@ -40,7 +40,7 @@ class AppKernel extends Kernel
 Usage
 -----
 
-Use `AC\TcpdfBundle\Pdf\PdfBuider` to create your PDF document. This class extends TCPDF. See [TCPDF documentation](https://tcpdf.org) for more informations about PDF generation.
+Use `AC\TcpdfBundle\Pdf\PdfBuider` to create your PDF document. This class extends TCPDF, see [TCPDF documentation](https://tcpdf.org) for more informations about PDF generation.
 
 `ACTcpdfBundle` provide helpers to serve your PDF :
 
