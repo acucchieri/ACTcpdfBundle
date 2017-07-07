@@ -1,9 +1,9 @@
 {
     "name": "acucchieri/tcpdf-bundle",
     "type": "symfony-bundle",
-    "description": "Integration of the tcpdf library with Symfony2",
-    "keywords": ["pdf", "tcpdf", "symfony2"],
-    "homepage": "https://github.com/acucchieri/PdfBundle",
+    "description": "Integration of the tcpdf library with Symfony",
+    "keywords": ["pdf", "tcpdf", "symfony"],
+    "homepage": "https://github.com/acucchieri/ACTcpdfBundle",
     "license": "MIT",
     "require": {
         "php": ">=5.3.3",
