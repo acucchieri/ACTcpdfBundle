@@ -42,9 +42,12 @@ Usage
 
 Use `AC\TcpdfBundle\Pdf\PdfBuider` to create your PDF document. This class extends TCPDF, see [TCPDF documentation](https://tcpdf.org) for more informations about PDF generation.
 
-`ACTcpdfBundle` provide helpers to serve your PDF :
 
-### Display the PDF in the browser
+### PDF Output
+
+`ACTcpdfBundle` provide helpers to serve your PDF
+
+#### Display the PDF in the browser
 
 Return a Response with `Content-Disposition: inline`
 
@@ -52,7 +55,7 @@ Return a Response with `Content-Disposition: inline`
 $myPdf->inline('my-pdf.doc');
 ```
 
-### Download the PDF
+#### Download the PDF
 
 Return a Response with `Content-Disposition: attachment`
 
@@ -60,23 +63,59 @@ Return a Response with `Content-Disposition: attachment`
 $myPdf->download('my-pdf.doc');
 ```
 
-### Get the PDF as base64 mime multi-part email attachment (RFC 2045)
+#### Get the PDF as base64 mime multi-part email attachment (RFC 2045)
 
 ``` php
 $myPdf->attachment('my-pdf.doc');
 ```
 
-### Save the PDF on a filesystem
+#### Save the PDF on a filesystem
 
 ``` php
 $myPdf->save('/path/to/my-pdf.doc');
 ```
 
-### Output the PDF as string
+#### Output the PDF as string
 
 ``` php
 $myPdf->toString();
 ```
+
+### MultiCell Helper
+
+`AC\TcpdfBundle\Pdf\PdfBuilder::addMultiCellRow($cells, $sameHeight)` allow you to build complex tables, based on `MultiCell`.
+
+`$cells` is a multidimensional array. Each cell (array) contains :
+ * The data (text or html)
+ * The options.  Available options :
+  * `height` Cell height
+  * `width` Cell width
+  * `border` Draw the cell borders. Allowed values : 0 or 1. Default = 0
+  * `align` Horz alignment. Allowed values : 'L' (left), 'C' (center), 'R' (right) or 'J' (justify). Default = 'T'
+  * `valign` Vert alignment. Allowed values 'T' (top), 'M' (middle) or 'B' (bottom). Default = 'T'
+  * `fill` Indicates if the cell background must be painted. true or false. Default = false
+  * `is_html` Indicate if the data is html. See TCDPF doc for the supported tags. Default = false
+
+`$sameHeight` If set to `true` all the row cells have the same height. Default = false.
+
+Example
+
+``` php
+$data = [
+  ['foo' => 'AAA', 'bar' => 123, 'baz' => '<b>text<b>'],
+  ['foo' => 'BBB', 'bar' => 456, 'baz' => '<a href="https://domain.td">link</a>'],
+  ['foo' => 'CCC', 'bar' => 789, 'baz' => '<ul><li>line 1</li><li>line 2</li></ul>'],
+];
+
+foreach ($data as $row) {
+    $pdf->addRowCell([
+      [$row['foo'], ['with' => 30]],
+      [$row['bar'], ['width' => 40, 'align' => 'R']],
+      [$row['baz'], ['width' => 50, 'is_html' => true]],
+    ]);
+}
+```
+
 
 License
 -------
