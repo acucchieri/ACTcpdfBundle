@@ -97,7 +97,8 @@ $myPdf->toString();
   * `is_html` Indicate if the data is html. See TCDPF doc for the supported tags. Default = false
 
 `$sameHeight` If set to `true` all the row cells have the same height. Default = false.
-`$nobr` If set to `true` the row is not break accross 2 pages. Default = false.
+
+`$nobr` If set to `true` the row is not break across 2 pages. Default = false.
 
 Example
 
