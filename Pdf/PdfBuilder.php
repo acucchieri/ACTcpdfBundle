@@ -31,8 +31,9 @@ class PdfBuilder extends TCPDF
      *        [$data['bar'], ['width' => 30, 'align' => 'C']],
      *    ]
      * @param bool  $sameHeight If TRUE all the row cells have the same height
+     * @param bool  $nobr       If TRUE the row is not split accross two pages
      */
-    public function addMultiCellRow(array $cells, $sameHeight = false)
+    public function addMultiCellRow(array $cells, $sameHeight = false, $nobr = false)
     {
         $startPage = $this->getPage();
         $startY = $this->GetY();
@@ -92,6 +93,15 @@ class PdfBuilder extends TCPDF
             $this->rollbackTransaction(true);
             // row height
             $cellsH = ($liCount * $textHeight) + ($p['T'] + $p['B']);
+        }
+
+        if ($nobr === true) {
+            if ($this->checkPageBreak($cellsH, $startY, false)) {
+                $this->addPage();
+                $this->setY($this->getMargins()['top']);
+                $startPage = $this->getPage();
+                $startY = $this->GetY();
+            }
         }
 
         foreach ($cells as $i => $cell) {

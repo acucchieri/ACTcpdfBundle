@@ -83,7 +83,7 @@ $myPdf->toString();
 
 ### MultiCell Helper
 
-`AC\TcpdfBundle\Pdf\PdfBuilder::addMultiCellRow($cells, $sameHeight)` allow you to build complex tables, based on `MultiCell`.
+`AC\TcpdfBundle\Pdf\PdfBuilder::addMultiCellRow($cells, $sameHeight, $nobr)` allow you to build complex tables, based on `MultiCell`.
 
 `$cells` is a multidimensional array. Each cell (array) contains :
  * The data (text or html)
@@ -97,6 +97,7 @@ $myPdf->toString();
   * `is_html` Indicate if the data is html. See TCDPF doc for the supported tags. Default = false
 
 `$sameHeight` If set to `true` all the row cells have the same height. Default = false.
+`$nobr` If set to `true` the row is not break accross 2 pages. Default = false.
 
 Example
 
