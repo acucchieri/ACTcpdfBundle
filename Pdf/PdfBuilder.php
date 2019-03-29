@@ -25,19 +25,19 @@ class PdfBuilder extends TCPDF
     /**
      * Add a row of MultiCell.
      *
-     * @param array $cells The Cells. Each Cell is an array (text and options)
-     *     [
-     *         [$data['foo'], ['width' => 50]],
-     *         [$data['bar'], ['width' => 30, 'align' => 'C']],
-     *     ]
-     * @param bool $sameHeight If TRUE all the row cells have the same height
+     * @param array $cells      The Cells. Each Cell is an array (text and options)
+     *    [
+     *        [$data['foo'], ['width' => 50]],
+     *        [$data['bar'], ['width' => 30, 'align' => 'C']],
+     *    ]
+     * @param bool  $sameHeight If TRUE all the row cells have the same height
      */
     public function addMultiCellRow(array $cells, $sameHeight = false)
     {
         $startPage = $this->getPage();
         $startY = $this->GetY();
         $lastCell = count($cells) - 1;
-        $cellsY = array();
+        $cellsY = [];
         $cellsH;  // used if $sameHeight=true
 
         $getCellOptions = function (array $cell) {
@@ -71,8 +71,6 @@ class PdfBuilder extends TCPDF
 
         if (true === $sameHeight) {
             // estimated text height
-            $pT = $this->cell_padding['T'];
-            $pB = $this->cell_padding['B'];
             $p = $this->getCellPaddings();
             $this->SetCellPadding(0);
             $textHeight = $this->getStringHeight(0, 'ABC123');
@@ -84,13 +82,16 @@ class PdfBuilder extends TCPDF
             foreach ($cells as $i => $cell) {
                 $opts = $getCellOptions($cell);
                 $ln = ($lastCell === $i) ? 1 : 2;
-                $n = $this->MultiCell($opts['width'], $textHeight, $cell[0], $opts['border'], $opts['align'], false, $ln);
+                $n = $this->MultiCell($opts['width'], $textHeight, $cell[0], $opts['border'], $opts['align'],
+                    false, $ln, $this->GetX(), $startY, true, 0,
+                    $opts['is_html'], true, 0, $opts['valign'], false
+                );
                 $liCount = ($n > $liCount) ? $n : $liCount;
                 $this->setPage($startPage);
             }
             $this->rollbackTransaction(true);
             // row height
-            $cellsH = ($liCount * $textHeight) + ($this->cell_padding['T'] + $this->cell_padding['B']);
+            $cellsH = ($liCount * $textHeight) + ($p['T'] + $p['B']);
         }
 
         foreach ($cells as $i => $cell) {
@@ -109,10 +110,9 @@ class PdfBuilder extends TCPDF
             $maxh = $h;
             $ln = ($lastCell === $i) ? 1 : 2;
 
-            $this->MultiCell($opts['width'], $h, $text, $opts['border']
-                , $opts['align'], $opts['fill'], $ln, $this->GetX(), $startY
-                , $reseth, $stretch, $opts['is_html'], $autopadding, $maxh
-                , $opts['valign'], $fitcell
+            $this->MultiCell($opts['width'], $h, $text, $opts['border'], $opts['align'],
+                $opts['fill'], $ln, $this->GetX(), $startY, $reseth, $stretch,
+                $opts['is_html'], $autopadding, $maxh, $opts['valign'], $fitcell
             );
 
             $setCellsY($this->getPage(), $this->GetY());
