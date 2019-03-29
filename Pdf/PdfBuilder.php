@@ -73,7 +73,7 @@ class PdfBuilder extends TCPDF
             // estimated text height
             $p = $this->getCellPaddings();
             $this->SetCellPadding(0);
-            $textHeight = $this->getStringHeight(0, 'ABC123');
+            $textHeight = $this->getStringHeight(0, 'ABC123', false, true, '', 1);
             $this->setCellPaddings($p['L'], $p['T'], $p['R'], $p['B']);
             // dry run (count max lines in the cells)
             $liCount = 1;
