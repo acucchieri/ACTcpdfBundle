@@ -105,6 +105,9 @@ class PdfBuilder extends TCPDF
         }
 
         foreach ($cells as $i => $cell) {
+            if (!empty($cell) && null === $cell[0]) {
+                $cell[0] = '';
+            }
             if (!isset($cell[0]) || !is_scalar($cell[0])) {
                 throw new \Exception('First element in cell array must be a scalar');
             }
