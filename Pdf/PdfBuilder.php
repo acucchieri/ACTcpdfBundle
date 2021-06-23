@@ -120,7 +120,7 @@ class PdfBuilder extends TCPDF
             $fitcell = false;
             $autopadding = true;
             $h = (true === $sameHeight) ? $cellsH : $opts['height'];
-            $maxh = $h;
+            $maxh = 0;
             $ln = ($lastCell === $i) ? 1 : 2;
 
             $this->MultiCell($opts['width'], $h, $text, $opts['border'], $opts['align'],
