@@ -7,7 +7,7 @@
     "license": "MIT",
     "require": {
         "php": ">=5.3.9",
-        "symfony/framework-bundle": "~2.8|~3.0",
+        "symfony/framework-bundle": "~2.8|~3.0|~4.0",
         "tecnickcom/tcpdf": "^6.2"
     },
     "autoload": {
