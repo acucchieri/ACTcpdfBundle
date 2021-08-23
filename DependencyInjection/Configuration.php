@@ -24,11 +24,8 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('ac_tcpdf');
-
-        return $treeBuilder;
+        return new TreeBuilder('ac_tcpdf');
     }
 }
