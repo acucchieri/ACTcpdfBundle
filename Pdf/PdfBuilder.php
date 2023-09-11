@@ -33,13 +33,13 @@ class PdfBuilder extends TCPDF
      * @param bool  $sameHeight If TRUE all the row cells have the same height
      * @param bool  $nobr       If TRUE the row is not split accross two pages
      */
-    public function addMultiCellRow(array $cells, $sameHeight = false, $nobr = false)
+    public function addMultiCellRow(array $cells, bool $sameHeight = false, bool $nobr = false)
     {
         $startPage = $this->getPage();
         $startY = $this->GetY();
         $lastCell = count($cells) - 1;
         $cellsY = [];
-        $cellsH;  // used if $sameHeight=true
+        $cellsH = null;  // used if $sameHeight=true
 
         $getCellOptions = function (array $cell) {
             $opts = (isset($cell[1])) ?
@@ -78,7 +78,6 @@ class PdfBuilder extends TCPDF
             $this->setCellPaddings($p['L'], $p['T'], $p['R'], $p['B']);
             // dry run (count max lines in the cells)
             $liCount = 1;
-            $needBr = false;
             $this->startTransaction();
             foreach ($cells as $i => $cell) {
                 $opts = $getCellOptions($cell);
@@ -123,9 +122,23 @@ class PdfBuilder extends TCPDF
             $maxh = 0;
             $ln = ($lastCell === $i) ? 1 : 2;
 
-            $this->MultiCell($opts['width'], $h, $text, $opts['border'], $opts['align'],
-                $opts['fill'], $ln, $this->GetX(), $startY, $reseth, $stretch,
-                $opts['is_html'], $autopadding, $maxh, $opts['valign'], $fitcell
+            $this->MultiCell(
+                $opts['width'],
+                $h,
+                $text,
+                $opts['border'],
+                $opts['align'],
+                $opts['fill'],
+                $ln,
+                $this->GetX(),
+                $startY,
+                $reseth,
+                $stretch,
+                $opts['is_html'],
+                $autopadding,
+                $maxh,
+                $opts['valign'],
+                $fitcell
             );
 
             $setCellsY($this->getPage(), $this->GetY());
@@ -146,9 +159,9 @@ class PdfBuilder extends TCPDF
      *
      * @param string $filename The file name
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function inline($filename = 'doc.pdf')
+    public function inline(string $filename = 'doc.pdf'): Response
     {
         $binary = $this->toString();
 
@@ -165,9 +178,9 @@ class PdfBuilder extends TCPDF
      *
      * @param string $filename The file name
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function download($filename = 'doc.pdf')
+    public function download(string $filename = 'doc.pdf'): Response
     {
         $binary = $this->toString();
 
@@ -186,7 +199,7 @@ class PdfBuilder extends TCPDF
      *
      * @return bool TRUE is PDF successfully saved; FALSE otherwise
      */
-    public function save($filename = 'doc.pdf')
+    public function save(string $filename = 'doc.pdf'): bool
     {
         $this->Output($filename, 'F');
 
@@ -200,7 +213,7 @@ class PdfBuilder extends TCPDF
      *
      * @return string
      */
-    public function attachment($filename = 'doc.pdf')
+    public function attachment(string $filename = 'doc.pdf'): string
     {
         return $this->Output($filename, 'E');
     }
@@ -210,7 +223,7 @@ class PdfBuilder extends TCPDF
      *
      * @return string
      */
-    public function toString()
+    public function toString(): string
     {
         return $this->Output('', 'S');
     }

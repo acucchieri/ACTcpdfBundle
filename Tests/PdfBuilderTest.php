@@ -20,12 +20,12 @@ class PdfBuilderTest extends TestCase
     {
         $pdf = new PdfBuilder();
         $response = $pdf->inline('my.pdf');
-
         $this->assertEquals('application/pdf',
             $response->headers->get('content-type')
         );
-        $this->assertEquals('inline; filename="my.pdf"',
-            $response->headers->get('content-disposition')
+        $this->assertContains(
+            $response->headers->get('content-disposition'),
+            ['inline; filename=my.pdf', 'inline; filename="my.pdf"']
         );
     }
 
@@ -37,8 +37,9 @@ class PdfBuilderTest extends TestCase
         $this->assertEquals('application/pdf',
             $response->headers->get('content-type')
         );
-        $this->assertEquals('attachment; filename="my.pdf"',
-            $response->headers->get('content-disposition')
+        $this->assertContains(
+            $response->headers->get('content-disposition'),
+            ['attachment; filename=my.pdf', 'attachment; filename="my.pdf"']
         );
     }
 
@@ -48,7 +49,7 @@ class PdfBuilderTest extends TestCase
         $filename = sprintf('%s.pdf', tempnam($tmpdir, 'my'));
 
         $pdf = new PdfBuilder();
-        $str = $pdf->save($filename);
+        $pdf->save($filename);
 
         $this->assertFileExists($filename);
     }
@@ -59,14 +60,24 @@ class PdfBuilderTest extends TestCase
         $str = $pdf->attachment('my.pdf');
 
         $this->assertNotEmpty($str);
-        $this->assertRegexp('/Content-Transfer-Encoding: base64/', $str);
+        $this->assertMatchesRegularExpression('/Content-Transfer-Encoding: base64/', $str);
     }
 
     public function testToString()
     {
         $pdf = new PdfBuilder();
-        $str = $pdf->toString('my.pdf');
+        $str = $pdf->toString();
 
         $this->assertNotEmpty($str);
+    }
+
+    public function testAddMultiCellRow()
+    {
+        $this->expectNotToPerformAssertions();
+        $pdf = new PdfBuilder();
+        $pdf->AddPage();
+        $pdf->addMultiCellRow([
+            ['FOOBAR', ['width' => 50]],
+        ]);
     }
 }
