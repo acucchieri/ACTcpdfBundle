@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class PdfBuilderTest extends TestCase
 {
-    public function testInline()
+    public function testInline(): void
     {
         $pdf = new PdfBuilder();
         $response = $pdf->inline('my.pdf');
@@ -29,7 +29,7 @@ class PdfBuilderTest extends TestCase
         );
     }
 
-    public function testDownload()
+    public function testDownload(): void
     {
         $pdf = new PdfBuilder();
         $response = $pdf->download('my.pdf');
@@ -43,7 +43,7 @@ class PdfBuilderTest extends TestCase
         );
     }
 
-    public function testSave()
+    public function testSave(): void
     {
         @mkdir($tmpdir = sys_get_temp_dir().'/actcpdf');
         $filename = sprintf('%s.pdf', tempnam($tmpdir, 'my'));
@@ -54,7 +54,7 @@ class PdfBuilderTest extends TestCase
         $this->assertFileExists($filename);
     }
 
-    public function testAttachment()
+    public function testAttachment(): void
     {
         $pdf = new PdfBuilder();
         $str = $pdf->attachment('my.pdf');
@@ -63,7 +63,7 @@ class PdfBuilderTest extends TestCase
         $this->assertMatchesRegularExpression('/Content-Transfer-Encoding: base64/', $str);
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $pdf = new PdfBuilder();
         $str = $pdf->toString();
@@ -71,7 +71,7 @@ class PdfBuilderTest extends TestCase
         $this->assertNotEmpty($str);
     }
 
-    public function testAddMultiCellRow()
+    public function testAddMultiCellRow(): void
     {
         $this->expectNotToPerformAssertions();
         $pdf = new PdfBuilder();

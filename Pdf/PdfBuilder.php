@@ -210,8 +210,6 @@ class PdfBuilder extends TCPDF
      * Return the PDF as base64 mime multi-part email attachment (RFC 2045).
      *
      * @param string $filename The file name
-     *
-     * @return string
      */
     public function attachment(string $filename = 'doc.pdf'): string
     {
@@ -220,8 +218,6 @@ class PdfBuilder extends TCPDF
 
     /**
      * Return the PDF as a string.
-     *
-     * @return string
      */
     public function toString(): string
     {
